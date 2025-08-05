@@ -42,6 +42,10 @@ const questSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  givenExp: {
+    type: Number,
+    default: 10,
+  },
   skillId: {
     type: Schema.Types.ObjectId,
     required: true,
