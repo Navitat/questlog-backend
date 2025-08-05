@@ -32,6 +32,9 @@ const disciplineSchema = new Schema({
     type: Number,
     default: 0,
   },
+  skillId: {
+    type: Schema.Types.ObjectId,
+  },
 });
 
 const userSchema = new Schema(
