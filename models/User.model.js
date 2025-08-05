@@ -1,6 +1,39 @@
 const { Schema, model } = require("mongoose");
 
-// TODO: Please make sure you edit the User model to whatever makes sense in this case
+const skillSchema = new Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+  },
+  experience: {
+    type: Number,
+    default: 0,
+  },
+  level: {
+    type: Number,
+    default: 0,
+  },
+});
+
+const disciplineSchema = new Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  type: {
+    type: String,
+    enum: ["good", "bad"],
+    required: true,
+  },
+  streak: {
+    type: Number,
+    default: 0,
+  },
+});
+
 const userSchema = new Schema(
   {
     email: {
@@ -34,6 +67,8 @@ const userSchema = new Schema(
       type: String,
       default: "https://i.imgur.com/WxNkK7J.png",
     },
+    skills: [skillSchema],
+    disciplines: [disciplineSchema],
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`
