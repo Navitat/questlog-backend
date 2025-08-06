@@ -33,4 +33,23 @@ router.post("/quests", isAuthenticated, (req, res, next) => {
     });
 });
 
+// DELETE /api/quests/:questId -- delete quest
+router.delete("/quests/:questId", isAuthenticated, (req, res, next) => {
+  const { questId } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(questId)) {
+    res.status(400).json({ message: "Specified Id is not valid" });
+    return;
+  }
+
+  Quest.findByIdAndDelete(questId)
+    .then(() => {
+      res.json({ message: `Succesful delete on quest id: ${questId}` });
+    })
+    .catch((error) => {
+      console.log("Error while deleting the project", error);
+      res.status(500).json({ message: "Error while deleting the project" });
+    });
+});
+
 module.exports = router;
