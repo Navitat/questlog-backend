@@ -28,6 +28,10 @@ const disciplineSchema = new Schema({
     enum: ["good", "bad"],
     required: true,
   },
+  givenExp: {
+    type: Number,
+    default: 10,
+  },
   streak: {
     type: Number,
     default: 0,
