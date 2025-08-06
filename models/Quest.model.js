@@ -33,32 +33,37 @@ const inventorySchema = new Schema({
   },
 });
 
-const questSchema = new Schema({
-  name: {
-    type: String,
-    required: true,
+const questSchema = new Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+    },
+    description: String,
+    archived: {
+      type: Boolean,
+      default: false,
+    },
+    givenExp: {
+      type: Number,
+      default: 10,
+    },
+    skillId: {
+      type: Schema.Types.ObjectId,
+      required: true,
+    },
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    tasks: [taskSchema],
+    inventory: [inventorySchema],
   },
-  description: String,
-  archived: {
-    type: Boolean,
-    default: false,
-  },
-  givenExp: {
-    type: Number,
-    default: 10,
-  },
-  skillId: {
-    type: Schema.Types.ObjectId,
-    required: true,
-  },
-  userId: {
-    type: Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
-  },
-  tasks: [taskSchema],
-  inventory: [inventorySchema],
-});
+  {
+    timestamps: true,
+  }
+);
 
 const Quest = model("Quest", questSchema);
 

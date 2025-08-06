@@ -12,6 +12,9 @@ require("./config")(app);
 const indexRoutes = require("./routes/index.routes");
 app.use("/api", indexRoutes);
 
+const questRoutes = require("./routes/quest.routes");
+app.use("/api", questRoutes);
+
 const userRoutes = require("./routes/user.routes");
 app.use("/api", userRoutes);
 
