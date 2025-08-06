@@ -33,6 +33,22 @@ router.post("/quests", isAuthenticated, (req, res, next) => {
     });
 });
 
+// PATCH /api/quests/:questId -- update quest name
+router.patch("/quests/:questId", isAuthenticated, (req, res, next) => {
+  const { questId } = req.params;
+  const { name } = req.body;
+
+  Quest.findByIdAndUpdate(questId, { $set: { name: name } }, { new: true })
+    .then((updatedQuest) => {
+      res.status(200).json(updatedQuest);
+    })
+    .catch((error) => {
+      console.log("Error updating name of quest");
+      console.log(error);
+      res.status(500).json({ message: "Error updating name of quest" });
+    });
+});
+
 // DELETE /api/quests/:questId -- delete quest
 router.delete("/quests/:questId", isAuthenticated, (req, res, next) => {
   const { questId } = req.params;
