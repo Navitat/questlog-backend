@@ -38,6 +38,7 @@ const questSchema = new Schema({
     type: String,
     required: true,
   },
+  description: String,
   archived: {
     type: Boolean,
     default: false,

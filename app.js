@@ -12,8 +12,8 @@ require("./config")(app);
 const indexRoutes = require("./routes/index.routes");
 app.use("/api", indexRoutes);
 
-const skillRoutes = require("./routes/skill.routes");
-app.use("/api", skillRoutes);
+const userRoutes = require("./routes/user.routes");
+app.use("/api", userRoutes);
 
 const authRoutes = require("./routes/auth.routes");
 app.use("/auth", authRoutes);
