@@ -44,6 +44,10 @@ const questSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    completed: {
+      type: Boolean,
+      default: false,
+    },
     givenExp: {
       type: Number,
       default: 10,

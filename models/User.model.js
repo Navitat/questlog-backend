@@ -34,6 +34,7 @@ const disciplineSchema = new Schema({
   },
   skillId: {
     type: Schema.Types.ObjectId,
+    required: true,
   },
 });
 
