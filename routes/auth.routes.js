@@ -56,9 +56,19 @@ router.post("/signup", (req, res, next) => {
       const salt = bcrypt.genSaltSync(saltRounds);
       const hashedPassword = bcrypt.hashSync(password, salt);
 
+      // default skills:
+      const skills = [
+        { name: "Strength" },
+        { name: "Intelligence" },
+        { name: "Wisdom" },
+        { name: "Endurance" },
+        { name: "Charisma" },
+        { name: "Mental Health" },
+      ];
+
       // Create the new user in the database
       // We return a pending promise, which allows us to chain another `then`
-      return User.create({ email, password: hashedPassword, name });
+      return User.create({ email, password: hashedPassword, name, skills });
     })
     .then((createdUser) => {
       // Deconstruct the newly created user object to omit the password
