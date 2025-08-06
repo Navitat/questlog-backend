@@ -36,6 +36,10 @@ const disciplineSchema = new Schema({
     type: Number,
     default: 0,
   },
+  completed: {
+    type: Boolean,
+    default: false,
+  },
   skillId: {
     type: Schema.Types.ObjectId,
     required: true,
