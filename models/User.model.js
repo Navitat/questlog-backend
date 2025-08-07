@@ -40,6 +40,10 @@ const disciplineSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  lastCompletedAt: {
+    type: Date,
+    default: null,
+  },
   skillId: {
     type: Schema.Types.ObjectId,
     required: true,

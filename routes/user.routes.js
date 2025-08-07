@@ -53,7 +53,7 @@ router.post("/user/disciplines", isAuthenticated, (req, res, next) => {
     });
 });
 
-// PATCH /api/user/disciplines/:disciplineId/complete
+// PATCH /api/user/disciplines/:disciplineId/complete - complete discipline
 router.patch(
   "/user/disciplines/:disciplineId/complete",
   isAuthenticated,
@@ -96,7 +96,7 @@ router.patch(
         }
 
         discipline.completed = true;
-        discipline.streak += 1;
+        discipline.lastCompletedAt = new Date();
 
         return user.save();
       })
