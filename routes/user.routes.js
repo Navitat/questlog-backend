@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const User = require("../models/User.model");
 const { isAuthenticated } = require("../middleware/jwt.middleware");
 
-const LEVEL_EXP = 100;
+const LEVEL_EXP = require("../utils/levelExp");
 
 // GET /api/user/
 router.get("/user", isAuthenticated, (req, res, next) => {
@@ -70,7 +70,7 @@ router.patch(
 
         const discipline = user.disciplines.id(disciplineId);
         if (!discipline) {
-          res.status(404).jsoon({ message: "Discipline not found" });
+          res.status(404).json({ message: "Discipline not found" });
           return;
         }
 
@@ -95,8 +95,8 @@ router.patch(
           user.level += 1;
         }
 
-        discipline.complete = true;
-        discipline.streak + 1;
+        discipline.completed = true;
+        discipline.streak += 1;
 
         return user.save();
       })
