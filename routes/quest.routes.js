@@ -11,7 +11,14 @@ const LEVEL_EXP = require("../utils/levelExp");
 // GET /api/quests -- get quests
 router.get("/quests", isAuthenticated, (req, res, next) => {
   const userId = req.payload._id;
-  Quest.find({ userId: userId })
+  const filter = { userId };
+  if (req.query.archived === "true") {
+    filter.archived = true;
+  } else {
+    filter.archived = false;
+  }
+
+  Quest.find(filter)
     .then((quests) => {
       res.status(200).json(quests);
     })
