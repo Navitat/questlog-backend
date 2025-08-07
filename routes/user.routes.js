@@ -70,7 +70,7 @@ router.patch(
 
         const discipline = user.disciplines.id(disciplineId);
         if (!discipline) {
-          res.status(404).json({ message: "Discipline not found" });
+          return res.status(404).json({ message: "Discipline not found" });
           return;
         }
 
@@ -78,7 +78,9 @@ router.patch(
         const { givenExp, skillId } = discipline;
         const skill = user.skills.id(skillId);
         if (!skill) {
-          res.status(404).json({ message: "Associated skill not found" });
+          return res
+            .status(404)
+            .json({ message: "Associated skill not found" });
         }
 
         // apply exp to skill
