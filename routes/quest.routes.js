@@ -36,6 +36,33 @@ router.post("/quests", isAuthenticated, (req, res, next) => {
     });
 });
 
+// POST /api/quests/:questId/tasks -- create task
+router.post("/quests/:questId/tasks", isAuthenticated, (req, res, next) => {
+  const { questId } = req.params;
+  const userId = req.payload._id;
+  const newTask = req.body;
+
+  Quest.findById(questId)
+    .then((quest) => {
+      if (!quest) {
+        return res.status(404).json({ message: "Quest not found" });
+      }
+
+      quest.tasks.push(newTask);
+
+      return quest.save();
+    })
+    .then((updatedQuest) => {
+      const addedTask = updatedQuest.tasks[updatedQuest.tasks.length - 1];
+      res.status(201).json(addedTask);
+    })
+    .catch((error) => {
+      console.log("Error adding task");
+      console.log(error);
+      res.status(500).json({ message: "Error adding task" });
+    });
+});
+
 // PATCH /api/quests/:questId -- update quest name
 router.patch("/quests/:questId", isAuthenticated, (req, res, next) => {
   const { questId } = req.params;

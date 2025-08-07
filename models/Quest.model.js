@@ -6,14 +6,9 @@ const taskSchema = new Schema({
     required: true,
   },
   description: String,
-  dueDate: Date,
   completed: {
     type: Boolean,
     default: false,
-  },
-  givenExp: {
-    type: Number,
-    default: 5,
   },
 });
 
@@ -52,6 +47,7 @@ const questSchema = new Schema(
       type: Number,
       default: 10,
     },
+    dueDate: Date,
     skillId: {
       type: Schema.Types.ObjectId,
       required: true,
