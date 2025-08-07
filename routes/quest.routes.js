@@ -63,6 +63,33 @@ router.post("/quests/:questId/tasks", isAuthenticated, (req, res, next) => {
     });
 });
 
+// POST /api/quests/:questId/inventory -- create inventory item
+router.post("/quests/:questId/inventory", isAuthenticated, (req, res, next) => {
+  const { questId } = req.params;
+  const newItem = req.body;
+
+  Quest.findById(questId)
+    .then((quest) => {
+      if (!quest) {
+        return res.status(404).json({ message: "Quest doesnt exist" });
+      }
+
+      quest.inventory.push(newItem);
+
+      return quest.save();
+    })
+    .then((updatedQuest) => {
+      const addedInvItem =
+        updatedQuest.inventory[updatedQuest.inventory.length - 1];
+      res.status(201).json(addedInvItem);
+    })
+    .catch((error) => {
+      console.log("Error adding item to inventory");
+      console.log(error);
+      res.status(500).json({ message: "Error adding item to inventory" });
+    });
+});
+
 // PATCH /api/quests/:questId -- update quest name
 router.patch("/quests/:questId", isAuthenticated, (req, res, next) => {
   const { questId } = req.params;
