@@ -53,6 +53,32 @@ router.post("/user/disciplines", isAuthenticated, (req, res, next) => {
     });
 });
 
+// POST /api/user/sidequests
+router.post("/user/sidequests", isAuthenticated, (req, res, next) => {
+  const newSidequest = req.body;
+  const userId = req.payload._id;
+
+  User.findById(userId)
+    .then((user) => {
+      if (!user) {
+        return res.status(404).json({ message: "User doesn0t exist" });
+      }
+
+      user.sideQuests.push(newSidequest);
+      return user.save();
+    })
+    .then((updatedUser) => {
+      const addedSidequest =
+        updatedUser.sideQuests[updatedUser.sideQuests.length - 1];
+      res.status(201).json({ addedSidequest });
+    })
+    .catch((error) => {
+      console.log("Error creating sidequest");
+      console.log(error);
+      res.status(505).json({ message: "Error creating sidequest" });
+    });
+});
+
 // PATCH /api/user/disciplines/:disciplineId/complete - complete discipline
 router.patch(
   "/user/disciplines/:disciplineId/complete",
@@ -115,6 +141,74 @@ router.patch(
           skillExp: skill.experience,
           streak: discipline.streak,
           complete: discipline.complete,
+        });
+      })
+      .catch((error) => {
+        console.log("Error while completing discipline");
+        console.log(error);
+        res.status(505).json({ message: "Error while completing discipline" });
+      });
+  }
+);
+
+// PATCH /api/user/sidequests/:sidequestId/complete - complete sidequest
+router.patch(
+  "/user/sidequests/:sidequestId/complete",
+  isAuthenticated,
+  (req, res, next) => {
+    const { sidequestId } = req.params;
+    const userId = req.payload._id;
+
+    User.findById(userId)
+      .then((user) => {
+        if (!user) {
+          res.status(404).json({ message: "User not found" });
+          return;
+        }
+
+        const sidequest = user.sideQuests.id(sidequestId);
+        if (!sidequest) {
+          return res.status(404).json({ message: "Sidequest not found" });
+        }
+
+        //get exp from doc
+        const { givenExp, skillId } = sidequest;
+        const skill = user.skills.id(skillId);
+        if (!skill) {
+          return res
+            .status(404)
+            .json({ message: "Associated skill not found" });
+        }
+
+        // apply exp to skill
+        skill.experience += givenExp;
+        while (skill.experience >= (skill.level + 1) * LEVEL_EXP) {
+          skill.experience -= (skill.level + 1) * LEVEL_EXP;
+          skill.level += 1;
+        }
+
+        // apply exp to user
+        user.experience += givenExp;
+        while (user.experience >= user.level * LEVEL_EXP) {
+          user.experience -= user.level * LEVEL_EXP;
+          user.level += 1;
+        }
+
+        sidequest.completed = true;
+
+        return user.save();
+      })
+      .then((updatedUser) => {
+        const sidequest = updatedUser.sideQuests.id(sidequestId);
+        const skill = updatedUser.skills.id(sidequest.skillId);
+
+        res.status(200).json({
+          message: "Discipline completed and EXP applied",
+          userLevel: updatedUser.level,
+          userExp: updatedUser.experience,
+          skillName: skill.name,
+          skillLevel: skill.level,
+          skillExp: skill.experience,
         });
       })
       .catch((error) => {

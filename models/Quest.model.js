@@ -45,7 +45,7 @@ const questSchema = new Schema(
     },
     givenExp: {
       type: Number,
-      default: 10,
+      default: 20,
     },
     dueDate: Date,
     skillId: {

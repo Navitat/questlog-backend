@@ -18,6 +18,26 @@ const skillSchema = new Schema({
   },
 });
 
+const sidequestSchema = new Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  dueDate: Date,
+  completed: {
+    type: Boolean,
+    default: false,
+  },
+  givenExp: {
+    type: Number,
+    default: 10,
+  },
+  skillId: {
+    type: Schema.Types.ObjectId,
+    required: true,
+  },
+});
+
 const disciplineSchema = new Schema({
   name: {
     type: String,
@@ -85,6 +105,7 @@ const userSchema = new Schema(
     },
     skills: [skillSchema],
     disciplines: [disciplineSchema],
+    sideQuests: [sidequestSchema],
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`

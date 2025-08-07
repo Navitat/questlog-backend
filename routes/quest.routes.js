@@ -113,7 +113,7 @@ router.patch("/quests/:questId", isAuthenticated, (req, res, next) => {
     });
 });
 
-// PATCH /api/quests/:questId -- complete quest
+// PATCH /api/quests/:questId/complete -- complete quest
 router.patch("/quests/:questId/complete", isAuthenticated, async (req, res) => {
   const { questId } = req.params;
   const userId = req.payload._id;
