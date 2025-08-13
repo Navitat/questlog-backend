@@ -113,6 +113,37 @@ router.patch("/quests/:questId", isAuthenticated, (req, res, next) => {
     });
 });
 
+// PATCH /api/quests/:questId/tasks/:taskId/complete
+router.patch(
+  "/quests/:questId/tasks/:taskId/complete",
+  isAuthenticated,
+  async (req, res, next) => {
+    const { questId, taskId } = req.params;
+
+    try {
+      const quest = await Quest.findById(questId);
+      if (!quest) {
+        return res.status(404).json({ message: "Quest not found" });
+      }
+
+      const task = quest.tasks.id(taskId);
+      if (!task) {
+        return res.status(404).json({ message: "Task not found" });
+      }
+
+      task.completed = true;
+
+      await quest.save();
+      return res
+        .status(200)
+        .json({ message: "Task completed successfully", task });
+    } catch (error) {
+      console.error("Error updating quest status:", error);
+      return res.status(500).json({ message: "Error updating quest status" });
+    }
+  }
+);
+
 // PATCH /api/quests/:questId/complete -- complete quest
 router.patch("/quests/:questId/complete", isAuthenticated, async (req, res) => {
   const { questId } = req.params;
@@ -131,7 +162,6 @@ router.patch("/quests/:questId/complete", isAuthenticated, async (req, res) => {
 
     // Update quest
     quest.completed = true;
-    quest.archived = true;
     await quest.save();
 
     const user = await User.findById(userId);
