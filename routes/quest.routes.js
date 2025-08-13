@@ -146,15 +146,15 @@ router.patch("/quests/:questId/complete", isAuthenticated, async (req, res) => {
 
     // Apply EXP to skill
     skill.experience += givenExp;
-    while (skill.experience >= (skill.level + 1) * LEVEL_EXP) {
-      skill.experience -= (skill.level + 1) * LEVEL_EXP;
+    while (skill.experience >= LEVEL_EXP) {
+      skill.experience -= LEVEL_EXP;
       skill.level += 1;
     }
 
     // Apply EXP to user
     user.experience += givenExp;
-    while (user.experience >= user.level * LEVEL_EXP) {
-      user.experience -= user.level * LEVEL_EXP;
+    while (user.experience >= LEVEL_EXP) {
+      user.experience -= LEVEL_EXP;
       user.level += 1;
     }
 

@@ -97,7 +97,6 @@ router.patch(
         const discipline = user.disciplines.id(disciplineId);
         if (!discipline) {
           return res.status(404).json({ message: "Discipline not found" });
-          return;
         }
 
         //get exp from doc
@@ -111,15 +110,15 @@ router.patch(
 
         // apply exp to skill
         skill.experience += givenExp;
-        while (skill.experience >= (skill.level + 1) * LEVEL_EXP) {
-          skill.experience -= (skill.level + 1) * LEVEL_EXP;
+        while (skill.experience >= LEVEL_EXP) {
+          skill.experience -= LEVEL_EXP;
           skill.level += 1;
         }
 
         // apply exp to user
         user.experience += givenExp;
-        while (user.experience >= user.level * LEVEL_EXP) {
-          user.experience -= user.level * LEVEL_EXP;
+        while (user.experience >= LEVEL_EXP) {
+          user.experience -= LEVEL_EXP;
           user.level += 1;
         }
 
@@ -140,7 +139,7 @@ router.patch(
           skillLevel: skill.level,
           skillExp: skill.experience,
           streak: discipline.streak,
-          complete: discipline.complete,
+          complete: discipline.completed,
         });
       })
       .catch((error) => {
@@ -182,15 +181,15 @@ router.patch(
 
         // apply exp to skill
         skill.experience += givenExp;
-        while (skill.experience >= (skill.level + 1) * LEVEL_EXP) {
-          skill.experience -= (skill.level + 1) * LEVEL_EXP;
+        while (skill.experience >= LEVEL_EXP) {
+          skill.experience -= LEVEL_EXP;
           skill.level += 1;
         }
 
         // apply exp to user
         user.experience += givenExp;
-        while (user.experience >= user.level * LEVEL_EXP) {
-          user.experience -= user.level * LEVEL_EXP;
+        while (user.experience >= LEVEL_EXP) {
+          user.experience -= LEVEL_EXP;
           user.level += 1;
         }
 
