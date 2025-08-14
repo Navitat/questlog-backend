@@ -150,6 +150,50 @@ router.patch(
   }
 );
 
+// DELETE /api/user/discipline/:disciplineId - delete discipline
+router.delete(
+  "/user/disciplines/:disciplineId",
+  isAuthenticated,
+  (req, res, next) => {
+    const { disciplineId } = req.params;
+    const userId = req.payload._id;
+
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res
+        .status(400)
+        .json({ message: "Specified User id is not valid" });
+    }
+
+    User.findById(userId)
+      .then((user) => {
+        if (!user) {
+          return res.status(404).json({ message: "User not found" });
+        }
+
+        const discipline = user.disciplines.id(disciplineId);
+        if (!discipline) {
+          return res.status(404).json({ message: "Discipline not found" });
+        }
+
+        discipline.deleteOne();
+
+        return user.save();
+      })
+      .then(() => {
+        res
+          .status(200)
+          .json({
+            message: `Discipline id: ${disciplineId} deleted succesfully`,
+          });
+      })
+      .catch((error) => {
+        console.log("Error while deleting discipline");
+        console.log(error);
+        res.status(500).json({ message: "Error while deleting discipline" });
+      });
+  }
+);
+
 // PATCH /api/user/sidequests/:sidequestId/complete - complete sidequest
 router.patch(
   "/user/sidequests/:sidequestId/complete",
