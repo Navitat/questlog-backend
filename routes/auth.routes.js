@@ -63,7 +63,7 @@ router.post("/signup", (req, res, next) => {
         { name: "Wisdom" },
         { name: "Endurance" },
         { name: "Charisma" },
-        { name: "Mental Health" },
+        { name: "Health" },
       ];
 
       // Create the new user in the database
