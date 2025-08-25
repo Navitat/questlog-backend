@@ -3,7 +3,7 @@ const resetAllUsersDisciplines = require("../utils/resetDiscipline");
 
 function startDailyResetJob() {
   // Runs every day at 00:00
-  cron.schedule("* * * * *", async () => {
+  cron.schedule("0 0 * * *", async () => {
     try {
       await resetAllUsersDisciplines();
     } catch (err) {
