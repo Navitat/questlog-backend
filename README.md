@@ -23,4 +23,29 @@ A working demo of the app can be found here: [QuestLog](https://questlog-app.net
 
 ## API Endpoints
 
-TBA
+Authentication Routes (`/auth`)
+
+- `POST /auth/signup` - User registration
+- `POST /auth/login` - User login
+- `GET /auth/verify` - Verify JWT token
+- `POST /auth/logout` - User logout
+
+User Routes (`/api/user`)
+
+- `GET /api/user` - Get user info
+- `POST /api/user/disciplines` - Create disciplines
+- `POST /api/user/sidequests` - Create Sidequests
+- `PATCH /api/user/disciplines/:disciplineId/complete` - Complete Discipline
+- `DELETE /api/user/discipline/:disciplineId` - Delete Discipline
+- `PATCH /api/user/sidequests/:sidequestId/complete` - Complete Sidequest
+
+Quest Routes (`/api/quests`)
+
+- `GET /api/quests` - Get Quests
+- `POST /api/quests` - Create Quest
+- `POST /api/quests/:questId/tasks` - Create Task
+- `POST /api/quests/:questId/inventory` - Create Inventory Item
+- `PATCH /api/quests/:questId` - Update Quest Name
+- `PATCH /api/quests/:questId/tasks/:taskId` - Complete Task of Quest
+- `PATCH /api/quests/:questId/complete` - Complete quest
+- `DETELE /api/quests/:questId` - Delete Quest
